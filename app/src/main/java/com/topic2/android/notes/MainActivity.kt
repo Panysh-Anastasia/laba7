@@ -4,14 +4,22 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.activity.compose.setContent
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Surface
+import androidx.compose.runtime.Composable
+import com.topic2.android.notes.routing.NotesRouter
+import com.topic2.android.notes.routing.Screen
 import com.topic2.android.notes.theme.NotesTheme
 import com.topic2.android.notes.ui.components.screens.NotesScreen
+import com.topic2.android.notes.ui.components.screens.SaveNoteScreen
+import com.topic2.android.notes.ui.screens.TrashScreen
 import com.topic2.android.notes.viewmodel.MainViewModel
 import com.topic2.android.notes.viewmodel.MainViewModelFactory
 
 /**
  * Main activity приложения.
  */
+@ExperimentalMaterialApi
 class MainActivity : AppCompatActivity() {
 
   private val viewModel: MainViewModel by viewModels(factoryProducer = {
@@ -27,10 +35,21 @@ class MainActivity : AppCompatActivity() {
     setContent {
       NotesTheme {
         NotesScreen(viewModel = viewModel)
-
+      MainActivityScreen(viewModel = viewModel)
 
       }
     }
   }
 }
+@Composable
+@ExperimentalMaterialApi
+private fun MainActivityScreen(viewModel: MainViewModel){
+  Surface {
+    when (NotesRouter.currentScreen){
+      is Screen.Notes -> NotesScreen(viewModel )
+      is Screen.SaveNote -> SaveNoteScreen(viewModel )
+      is Screen.Trash -> TrashScreen(viewModel )
 
+    }
+  }
+}

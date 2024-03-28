@@ -24,7 +24,6 @@ import com.topic2.android.notes.ui.components.Note
 import com.topic2.android.notes.ui.components.TopAppBar
 import com.topic2.android.notes.viewmodel.MainViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 
 @Composable
@@ -70,14 +69,15 @@ val notes: List<NoteModel> by viewModel
                         }
                         )
                           },
-        content = {
+        content = {it ->
        if (notes.isNotEmpty()) {
            NotesList(
                notes = notes,
                onNoteCheckedChange ={
             viewModel.onNoteCheckedChange(it)
                } ,
-               onNoteClick = {viewModel.onNoteClick(it)}
+               onNoteClick = {viewModel.onNoteClick(it)},
+               isSelected = true
            )
        }
     }
@@ -88,15 +88,18 @@ val notes: List<NoteModel> by viewModel
 private fun NotesList(
     notes: List<NoteModel>,
     onNoteCheckedChange: (NoteModel) -> Unit,
-    onNoteClick: (NoteModel) -> Unit
+    onNoteClick: (NoteModel) -> Unit,
+    isSelected: Boolean
 ){
     LazyColumn{
         items(count = notes.size){ noteIndex ->
         val note = notes[noteIndex]
-            Note(note = note,
+            Note(
+                note = note,
                 onNoteClick = onNoteClick,
-                onNoteCheckedChange = onNoteCheckedChange
-                )
+                onNoteCheckedChange = onNoteCheckedChange,
+                isSelected = isSelected
+            )
 
         }
     }
@@ -110,5 +113,7 @@ private fun NotesListPreview(){
         NoteModel(3, "Note 3", "Content 3", true)
     ),
         onNoteCheckedChange = {},
-        onNoteClick ={} )
+        onNoteClick ={} ,
+        isSelected = true
+        )
 }
