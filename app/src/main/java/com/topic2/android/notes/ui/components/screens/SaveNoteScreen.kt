@@ -52,11 +52,23 @@ val noteEntry: NoteModel by viewModel.noteEntry.observeAsState(NoteModel())
             isEditingMode = isEditingMode,
             onBackClick = { NotesRouter.navigateTo(Screen.Notes)
                           },
-            onSaveNoteClick = {  },
-            onOpenColorPickerClick = { }, onDeleteNoteClick = {}
+            onSaveNoteClick = {
+                              viewModel.saveNote(noteEntry)
+            },
+            onOpenColorPickerClick = { },
+            onDeleteNoteClick = {
+                viewModel.moveNoteToTrash(noteEntry)
+            }
         )
     },
-        content = {}
+        content = { it ->
+            SaveNoteContent(
+                note = noteEntry,
+                onNoteChange = { updateNoteEntry ->
+                    viewModel.onNoteEntryChange(updateNoteEntry)
+                }
+            )
+        }
         )
 }
 @Composable
@@ -231,7 +243,7 @@ fun ContentTextFieldPreview(){
 @Composable
 fun SaveNoteContentPreview(){
     SaveNoteContent(note = NoteModel(title = "Title",content = "content" ),
-    onNoteChange = {}
+    onNoteChange = {})
 }
 
 @Composable
