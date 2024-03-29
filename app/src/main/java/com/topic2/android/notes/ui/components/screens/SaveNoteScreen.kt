@@ -12,6 +12,8 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
+import androidx.compose.material.TextField
+import androidx.compose.material.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
@@ -142,6 +144,27 @@ private fun NoteCheckOption(
             onCheckedChange = onCheckedChange, modifier = Modifier.padding(start = 8.dp) )
     }
 }
+@Composable
+private fun ContentTextField(
+    modifier: Modifier = Modifier,
+    label: String,
+    text: String,
+    onTextChange: (String) -> Unit
+){
+    TextField(value = text,
+        onValueChange = onTextChange,
+        label = {
+            Text(label)
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = MaterialTheme.colors.surface
+        )
+
+        )
+}
 
 @Preview
 @Composable
@@ -164,6 +187,12 @@ fun PickedColorPreview(){
 @Composable
 fun NoteCheckOptionPreview(){
     NoteCheckOption(false ){}
+}
+@Preview
+@Composable
+fun ContentTextFieldPreview(){
+    ContentTextField(label = "Title",
+        text = "", onTextChange ={} )
 }
 
 @Composable
