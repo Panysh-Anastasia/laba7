@@ -38,17 +38,19 @@ fun Note(
     isSelected: Boolean
 ){
 val background = if (isSelected)
-    Color.LightGray
+    Color.White
     else
         MaterialTheme.colors.surface
 val modifier = null
-Card (
-    shape = RoundedCornerShape(4.dp),
-    modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth(),
-    backgroundColor = background
-){
+
+    Card (
+        shape = RoundedCornerShape(4.dp),
+        modifier = Modifier
+            .padding(8.dp)
+            .fillMaxWidth(),
+        backgroundColor = MaterialTheme.colors.surface,
+        contentColor = MaterialTheme.colors.onSurface
+    ){
     ListItem (
     text = { Text(text = note.title, maxLines = 1)},
      secondaryText = {
